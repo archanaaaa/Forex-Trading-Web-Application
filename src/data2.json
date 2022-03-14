@@ -1,0 +1,42 @@
+[
+    {
+        "id": 358728386,
+        "price": "79.12",
+        "qty": "63.19",
+        "quoteQty": "4999.5928",
+        "time": 1646986604000,
+        "isBuyerMaker": false
+    },
+    {
+        "id": 358728215,
+        "price": "79.12",
+        "qty": "3159.75",
+        "quoteQty": "249999.42",
+        "time": 1646986584000,
+        "isBuyerMaker": false
+    },
+    {
+        "id": 358728185,
+        "price": "79.11",
+        "qty": "29.85",
+        "quoteQty": "2361.4335",
+        "time": 1646986581000,
+        "isBuyerMaker": true
+    },
+    {
+        "id": 358728123,
+        "price": "79.11",
+        "qty": "32.0",
+        "quoteQty": "2531.52",
+        "time": 1646986573000,
+        "isBuyerMaker": true
+    },
+    {
+        "id": 358727945,
+        "price": "79.11",
+        "qty": "605.59",
+        "quoteQty": "47908.2249",
+        "time": 1646986554000,
+        "isBuyerMaker": true
+    }
+]
