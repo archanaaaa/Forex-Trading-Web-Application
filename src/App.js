@@ -6,17 +6,19 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function App() {
 
-  const [data1, setData1] = useState([]);
-  const [data2, setData2] = useState([]);
-
+  const [krakenData, setKrakenData] = useState([]);
+  const [binanceData, setBinanceData] = useState([]);
+  const exchanges = ['kraken','binance'];
   
 const options = {
   animationEnabled: true,	
+  theme: "dark1", 
   title:{
     text: "Exchange Rates"
   },
   axisY : {
-    title: "Currency Value"
+    prefix: "$",
+		title: "Price (in USD)"
   },
   axisX : {
     title : "Timeline",
@@ -29,51 +31,51 @@ const options = {
   data: [
   {
     xValueType: "dateTime",
-    type: "spline",
-    name: "WazirX",
+    type: "candlestick",
+    name: "Kraken",
     showInLegend: true,
-    dataPoints: data1
+    dataPoints: krakenData
   },
   {
     xValueType: "dateTime",
-    type: "spline",
-    name: "coin",
+    type: "candlestick",
+    name: "Binance",
     showInLegend: true,
-    dataPoints: data2
+    dataPoints: binanceData
   }]
 }
 
-  useEffect(() => {
-    setInterval(() =>{
-      fetch("http://localhost:5000/wazirxGetRate",{
-        'methods':'GET',
+useEffect(() => {
+  setInterval(() =>{
+    exchanges.forEach(exchange => {
+      fetch("http://localhost:5000/getData",{
+        method:'POST',
         headers : {
           'Content-Type':'application/json',
           'Access-Control-Allow-Origin' : 'http://localhost:5000'
-        }
+        },
+        body: JSON.stringify({'exchange':exchange}),
       })
-      .then(res => res.json())
-      .then(myData1 => {
-        // data1 = myData1
-        setData1([...data1,...myData1])
-        console.log(data1)
+      .then(response => response.json())
+      .then(myJSON => 
+      {
+        const array = [];
+
+        for(var i in myJSON) {
+          var myDate = new Date(myJSON[i]['x'])
+          var dict = {'x':myDate,'y':myJSON[i]['y']}
+          array.push(dict);
+          }
+
+        if(exchange === 'kraken'){ setKrakenData([...array]) }
+        else if(exchange === 'binance'){ setBinanceData([...array]) }
+
       });
-      
-      fetch('http://localhost:5000/coinGetRate',{
-        'methods':'GET',
-        headers : {
-          'Content-Type':'application/json',
-          'Access-Control-Allow-Origin' : 'http://localhost:5000'
-        }
-      })
-      .then(res => res.json())
-      .then(myData2 => {
-        // data2 = myData2
-        setData2([...data2,...myData2])
-        console.log(data2)
-      });
-    },10000);
-  });
+    });
+  },10000);
+});
+
+
 
 
 
